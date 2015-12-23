@@ -48,16 +48,61 @@ class Tmdbapi extends Component
 
     public function searchCompany($key = false, $params = [])
     {
+        return $this->genericSearch('company', $key, $params);
+    }
+
+    public function searchCollection($key = false, $params = [])
+    {
+        return $this->genericSearch('collection', $key, $params);
+    }
+
+    public function searchKeyword($key = false, $params = [])
+    {
+        return $this->genericSearch('keyword', $key, $params);
+    }
+
+    public function searchList($key = false, $params = [])
+    {
+        return $this->genericSearch('list', $key, $params);
+    }
+
+    public function searchMovie($key = false, $params = [])
+    {
+        return $this->genericSearch('movie', $key, $params);
+    }
+
+    public function searchMulti($key = false, $params = [])
+    {
+        return $this->genericSearch('list', $key, $params);
+    }
+
+    public function searchPerson($key = false, $params = [])
+    {
+        return $this->genericSearch('person', $key, $params);
+    }
+
+    public function searchTv($key = false, $params = [])
+    {
+        return $this->genericSearch('tv', $key, $params);
+    }
+
+    public function genericSearch($search = '', $key = false, $params = [])
+    {
         if ($key) {
-            $this->newRequest();
-            $this->_method = 'GET';
-            $this->_url = '/search/company';
-            $this->addParam('query', $key);
-            $this->addParams($params);
-            return $this->doQuery();
+            $params['query'] = $key;
+            return $this->genericGet('/search/' . $search, $params);
         } else {
-            throw new Exception("searchCompany requires a search key!");
+            throw new Exception("search $search requires a search key!");
         }
+    }
+
+    public function genericGet($url, $params = [])
+    {
+        $this->newRequest();
+        $this->_method = 'GET';
+        $this->_url = $url;
+        $this->addParams($params);
+        return $this->doQuery();
     }
 
     public function doQuery()
