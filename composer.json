@@ -2,7 +2,7 @@
     "name": "macklus/yii2-themdb",
     "description": "The Movie DB API Client for yii2",
     "type": "yii2-extension",
-    "keywords": ["yii2","extension","api","the movie db"],
+    "keywords": ["yii2", "extension", "api", "the movie db"],
     "license": "GPL-3.0+",
     "authors": [
         {
@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": "*"
+        "yiisoft/yii2": "*",
+        "guzzlehttp/guzzle": "^6.1"
     },
     "autoload": {
         "psr-4": {

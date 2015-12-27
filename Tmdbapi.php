@@ -73,7 +73,7 @@ class Tmdbapi extends Component
 
     public function searchMulti($key = false, $params = [])
     {
-        return $this->genericSearch('list', $key, $params);
+        return $this->genericSearch('multi', $key, $params);
     }
 
     public function searchPerson($key = false, $params = [])
@@ -84,6 +84,66 @@ class Tmdbapi extends Component
     public function searchTv($key = false, $params = [])
     {
         return $this->genericSearch('tv', $key, $params);
+    }
+
+    public function getCollection($id = false, $params = [])
+    {
+        return $this->generic('/collection/[:id]', $id, $params);
+    }
+
+    public function getCollectionImages($id = false, $params = [])
+    {
+        return $this->generic('/collection/[:id]/images', $id, $params);
+    }
+
+    public function getCompany($id = false, $params = [])
+    {
+        return $this->generic('/company/[:id]', $id, $params);
+    }
+
+    public function getCompanyMovies($id = false, $params = [])
+    {
+        return $this->generic('/company/[:id]/movies', $id, $params);
+    }
+
+    public function getGenreMovieList($params = [])
+    {
+        return $this->generic('/genre/movie/list', 100, $params);
+    }
+
+    public function getGenreTVList($params = [])
+    {
+        return $this->generic('/genre/tv/list', 100, $params);
+    }
+
+    public function getGenreMovies($id = false, $params = [])
+    {
+        return $this->generic('/genre/[:id]/movies', $id, $params);
+    }
+
+    public function getJobList($params = [])
+    {
+        return $this->generic('/job/list', 100, $params);
+    }
+
+    public function getKeyword($id = false, $params = [])
+    {
+        return $this->generic('/keyword/[:id]', $id, $params);
+    }
+    
+    public function getKeywordMovies($id = false, $params = [])
+    {
+        return $this->generic('/keyword/[:id]/movies', $id, $params);
+    }
+
+    public function generic($url = '', $id = false, $params = [])
+    {
+        if ($id) {
+            $miurl = str_replace("[:id]", $id, $url);
+            return $this->genericGet($miurl, $params);
+        } else {
+            throw new Exception("search requires a id key!");
+        }
     }
 
     public function genericSearch($search = '', $key = false, $params = [])
@@ -137,6 +197,11 @@ class Tmdbapi extends Component
     public function isOk()
     {
         return !$this->_error;
+    }
+
+    public function getError()
+    {
+        return $this->_errorMsg;
     }
 
     public function processBody($data)
