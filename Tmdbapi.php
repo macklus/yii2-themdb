@@ -30,7 +30,8 @@ class Tmdbapi extends Component
     protected $_connection;
     protected $_data;
     protected $_status;
-    protected $_acceptedParams = ['query', 'page'];
+    protected $_acceptedParams = ['query', 'page', 'language', 'append_to_response', 'start_date', 'end_date', 'include_all_movies', 'include_adult', 'sort_by', 'sort_order', 'session_id',
+        'country', 'include_image_language', 'movie_credits', 'tv_credits', 'combined_credits', 'external_ids', 'images', 'tagged_images', 'changes'];
     protected $_blockuntil;
     protected $_error = false;
     protected $_errorMsg = false;
@@ -130,10 +131,48 @@ class Tmdbapi extends Component
     {
         return $this->generic('/keyword/[:id]', $id, $params);
     }
-    
+
     public function getKeywordMovies($id = false, $params = [])
     {
         return $this->generic('/keyword/[:id]/movies', $id, $params);
+    }
+
+    public function getMovie($id = false, $params = [])
+    {
+        return $this->generic('/movie/[:id]', $id, $params);
+    }
+
+    public function getFullMovie($id = false, $params = [])
+    {
+        $params['append_to_response'] = 'account_states,alternative_titles,credits,images,keywords,releases,videos,translations,reviews,similar,rating';
+        return $this->generic('/movie/[:id]', $id, $params);
+    }
+
+    public function getPerson($id = false, $params = [])
+    {
+        return $this->generic('/person/[:id]', $id, $params);
+    }
+
+    public function getFullPerson($id = false, $params = [])
+    {
+        $params['append_to_response'] = 'movie_credits,tv_credits,combined_credits,external_ids,images,tagged_images,changes';
+        return $this->generic('/movie/[:id]', $id, $params);
+    }
+
+    public function getTv($id = false, $params = [])
+    {
+        return $this->generic('/tv/[:id]', $id, $params);
+    }
+
+    public function getFullTv($id = false, $params = [])
+    {
+        $params['append_to_response'] = 'account_states,alternative_titles,content_ratings,credits,external_ids,images,keywords,rating,translations,videos';
+        return $this->generic('/tv/[:id]', $id, $params);
+    }
+
+    public function getTvSeason($id = false, $season = false, $params = [])
+    {
+        return $this->generic('/tv/[:id]/season/' . $season, $id, $params);
     }
 
     public function generic($url = '', $id = false, $params = [])
