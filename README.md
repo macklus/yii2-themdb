@@ -10,7 +10,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist macklus/yii2-themdb "*"
+composer require --prefer-dist macklus/yii2-themdb "*"
 ```
 
 or add
@@ -28,4 +28,18 @@ Usage
 Once the extension is installed, simply use it in your code by  :
 
 ```php
-<?= \macklus\themdb\AutoloadExample::widget(); ?>```
+use macklus\themdb\Tmdbapi;
+
+class SiteController extends Controller
+{
+    public function actionTest()
+    {
+        $tmdb = new Tmdbapi();
+        $tmdb->api_key = '__INSERT_HERE_YOUR_API_KEY__';
+        if ($tmdb->getTvSeason(46952, 3, ['language' => 'es'])) {
+            print_R($tmdb->data);
+        } else {
+            echo 'error';
+        }
+    }
+}```
