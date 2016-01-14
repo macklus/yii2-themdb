@@ -187,7 +187,7 @@ class Tmdbapi extends Component
 
     public function genericSearch($search = '', $key = false, $params = [])
     {
-        if ($key) {
+        if ($key !== false) {
             $params['query'] = $key;
             return $this->genericGet('/search/' . $search, $params);
         } else {
@@ -206,8 +206,6 @@ class Tmdbapi extends Component
 
     public function doQuery()
     {
-        $this->sleepUntilApiAllow();
-
         if (strtoupper($this->_method) == 'GET') {
             try {
                 $r = $this->_connection->get($this->_domain . $this->_url . '?' . http_build_query($this->_params), [
@@ -257,23 +255,12 @@ class Tmdbapi extends Component
         $this->data = $json;
     }
 
-    public function sleepUntilApiAllow()
-    {
-        while ($this->_blockuntil) {
-            if (time() > $this->_blockuntil) {
-                $this->_blockuntil = false;
-            } else {
-                sleep(1);
-            }
-        }
-    }
-
     public function ensureApiLimits($headers = [])
     {
-        if (isset($headers['X-RateLimit-Remaining']) && isset($headers['X-RateLimit-Reset']) && $headers['X-RateLimit-Remaining'][0] < 3) {
-            $this->_blockuntil = $headers['X-RateLimit-Reset'][0];
-        } else {
-            $this->_blockuntil = false;
+        if ($headers['X-RateLimit-Remaining'][0] < 3) {
+            $wait = $headers['X-RateLimit-Reset'][0] - strtotime($headers['Date'][0]) + 2;
+            //echo 'ESPERO ' . $wait . ' segundos a que ' . strtotime($headers['Date'][0]) . ' < ' . $headers['X-RateLimit-Reset'][0];
+            sleep($wait);
         }
     }
 

@@ -2,6 +2,13 @@ The Movie DB API Client for yii2
 ================================
 The Movie DB API Client for yii2
 
+Features
+------------
+
+* Implements most of The Movie DB API methods
+* Respect API limits, and wait if you are near to overpass API limit
+* Simple usage
+
 Installation
 ------------
 
