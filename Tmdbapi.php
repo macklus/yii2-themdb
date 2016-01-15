@@ -9,6 +9,7 @@
 
 namespace macklus\themdb;
 
+use Yii;
 use yii\base\Component;
 use yii\base\Exception;
 use yii\base\ErrorException;
@@ -259,7 +260,7 @@ class Tmdbapi extends Component
     {
         if ($headers['X-RateLimit-Remaining'][0] < 3) {
             $wait = $headers['X-RateLimit-Reset'][0] - strtotime($headers['Date'][0]) + 2;
-			Yii::info("Waiting $wait seconds to ensure API limits", 'tmdb');
+            Yii::info("Waiting $wait seconds to ensure API limits", 'tmdb');
             sleep($wait);
         }
     }
