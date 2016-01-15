@@ -259,7 +259,7 @@ class Tmdbapi extends Component
     {
         if ($headers['X-RateLimit-Remaining'][0] < 3) {
             $wait = $headers['X-RateLimit-Reset'][0] - strtotime($headers['Date'][0]) + 2;
-            //echo 'ESPERO ' . $wait . ' segundos a que ' . strtotime($headers['Date'][0]) . ' < ' . $headers['X-RateLimit-Reset'][0];
+			Yii::info("Waiting $wait seconds to ensure API limits", 'tmdb');
             sleep($wait);
         }
     }
