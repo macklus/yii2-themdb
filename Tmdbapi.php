@@ -41,6 +41,14 @@ class Tmdbapi extends Component
     {
         parent::init();
         $this->connect();
+        $this->getConfiguration();
+    }
+
+    public function getConfiguration()
+    {
+        if ($this->genericGet('/configuration')) {
+            $this->_configuration = $this->data;
+        }
     }
 
     public function connect()
@@ -157,7 +165,7 @@ class Tmdbapi extends Component
     public function getFullPerson($id = false, $params = [])
     {
         $params['append_to_response'] = 'movie_credits,tv_credits,combined_credits,external_ids,images,tagged_images,changes';
-        return $this->generic('/movie/[:id]', $id, $params);
+        return $this->generic('/person/[:id]', $id, $params);
     }
 
     public function getTv($id = false, $params = [])
@@ -223,6 +231,27 @@ class Tmdbapi extends Component
             } catch (Exception $ex) {
                 $this->crash();
             }
+        }
+    }
+
+    public function getImage($file_path = false, $dest_file = false, $type = 'profile', $size = 'original')
+    {
+        if (!$file_path) {
+            throw new Exception("getImage requires file_path!");
+        }
+        if (!$file_path) {
+            throw new Exception("getImage requires destination folder!");
+        }
+
+        if (!in_array($size, $this->_configuration['images'][$type . '_sizes'])) {
+            throw new Exception("getImage requires valid type and size!");
+        }
+
+        if ($file = fopen($dest_file, 'w+')) {
+            //echo "\n" . $this->_configuration['images']['secure_base_url'] . $size . '/' . $file_path . "\n";
+            $request = $this->_connection->get($this->_configuration['images']['secure_base_url'] . $size . '/' . $file_path, [], ['save_to' => $dest_file]);
+            fwrite($file, $request->getBody());
+            fclose($file);
         }
     }
 

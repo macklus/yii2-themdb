@@ -8,6 +8,7 @@ Features
 * Implements most of The Movie DB API methods
 * Respect API limits, and wait if you are near to overpass API limit
 * Simple usage
+* Simple download of related images
 * Log info messages using Yii::info for you to know when sleep due to API limits
 
 Installation
