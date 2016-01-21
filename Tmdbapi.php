@@ -32,7 +32,7 @@ class Tmdbapi extends Component
     protected $_data;
     protected $_status;
     protected $_acceptedParams = ['query', 'page', 'language', 'append_to_response', 'start_date', 'end_date', 'include_all_movies', 'include_adult', 'sort_by', 'sort_order', 'session_id',
-        'country', 'include_image_language', 'movie_credits', 'tv_credits', 'combined_credits', 'external_ids', 'images', 'tagged_images', 'changes'];
+        'country', 'include_image_language', 'movie_credits', 'tv_credits', 'combined_credits', 'external_ids', 'images', 'tagged_images', 'changes', 'external_source'];
     protected $_blockuntil;
     protected $_error = false;
     protected $_errorMsg = false;
