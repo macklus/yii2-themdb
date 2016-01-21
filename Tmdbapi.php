@@ -56,6 +56,16 @@ class Tmdbapi extends Component
         $this->_connection = new \GuzzleHttp\Client();
     }
 
+    public function findByExternal($external, $value = false, $params = [])
+    {
+        if ($value !== false) {
+            $params['external_source'] = $external;
+            return $this->genericGet('/find/' . $value, $params);
+        } else {
+            throw new Exception("search $external requires a search key!");
+        }
+    }
+
     public function searchCompany($key = false, $params = [])
     {
         return $this->genericSearch('company', $key, $params);

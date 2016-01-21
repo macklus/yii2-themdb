@@ -50,5 +50,9 @@ class SiteController extends Controller
         } else {
             echo 'error';
         }
+
+		// Find something by his imdb_id
+		$tmdb->findByExternal('imdb_id', 'tt0816692', ['language' => 'es']);
+
     }
 }```
