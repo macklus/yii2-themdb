@@ -194,6 +194,11 @@ class Tmdbapi extends Component
         return $this->generic('/tv/[:id]/season/' . $season, $id, $params);
     }
 
+    public function getTvSeasonEpisode($id = false, $season = false, $episode = false, $params = [])
+    {
+        return $this->generic('/tv/[:id]/season/' . $season . '/episode/' . $episode, $id, $params);
+    }
+
     public function generic($url = '', $id = false, $params = [])
     {
         if ($id) {
