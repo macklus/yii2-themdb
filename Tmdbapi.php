@@ -36,18 +36,20 @@ class Tmdbapi extends Component
     protected $_blockuntil;
     protected $_error = false;
     protected $_errorMsg = false;
+    protected $_configuration;
+    protected $_isConfigure = false;
 
     public function init()
     {
         parent::init();
         $this->connect();
-        $this->getConfiguration();
     }
 
     public function getConfiguration()
     {
         if ($this->genericGet('/configuration')) {
             $this->_configuration = $this->data;
+            $this->_isConfigure = true;
         }
     }
 
@@ -163,7 +165,7 @@ class Tmdbapi extends Component
 
     public function getFullMovie($id = false, $params = [])
     {
-        $params['append_to_response'] = 'account_states,alternative_titles,credits,images,keywords,releases,videos,translations,reviews,similar,rating';
+        $params['append_to_response'] = 'external_ids,account_states,alternative_titles,credits,images,keywords,releases,videos,translations,reviews,similar,rating';
         return $this->generic('/movie/[:id]', $id, $params);
     }
 
@@ -251,6 +253,10 @@ class Tmdbapi extends Component
 
     public function getImage($file_path = false, $dest_file = false, $type = 'profile', $size = 'original')
     {
+        if (!$this->_isConfigure) {
+            $this->getConfiguration();
+        }
+
         if (!$file_path) {
             throw new Exception("getImage requires file_path!");
         }
