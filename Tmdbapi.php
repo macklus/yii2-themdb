@@ -201,6 +201,32 @@ class Tmdbapi extends Component
         return $this->generic('/tv/[:id]/season/' . $season . '/episode/' . $episode, $id, $params);
     }
 
+    public function getMovieChanges($start_date = false, $end_date = false, $params = [])
+    {
+        return $this->getChanges('movie', $start_date, $end_date, $params);
+    }
+
+    public function getTvChanges($start_date = false, $end_date = false, $params = [])
+    {
+        return $this->getChanges('tv', $start_date, $end_date, $params);
+    }
+
+    public function getPersonChanges($start_date = false, $end_date = false, $params = [])
+    {
+        return $this->getChanges('person', $start_date, $end_date, $params);
+    }
+
+    public function getChanges($type, $start_date, $end_date, $params = [])
+    {
+        if ($start_date) {
+            $params['start_date'] = $start_date;
+        }
+        if ($end_date) {
+            $params['start_date'] = $start_date;
+        }
+        return $this->genericGet('/' . $type . '/changes', $params);
+    }
+
     public function generic($url = '', $id = false, $params = [])
     {
         if ($id) {
